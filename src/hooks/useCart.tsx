@@ -55,7 +55,9 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
 	const removeProduct = (productId: number) => {
 		try {
-			// TODO
+			const productIndex = cart.findIndex((product) => product.id === productId)
+			if (productIndex < 0) throw new Error()
+
 			const newCart = cart.filter((product) => product.id !== productId)
 			setCart(newCart)
 			localStorage.setItem('@RocketShoes:cart', JSON.stringify(newCart))
@@ -86,8 +88,8 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
 			setCart(updatedCart)
 			localStorage.setItem('@RocketShoes:cart', JSON.stringify(updatedCart))
-		} catch {
-			toast.error('Erro na alteração de quantidade do produto')
+		} catch (error) {
+			toast.error(error.message)
 		}
 	}
 
